@@ -1,8 +1,15 @@
 import express from "express";
+import Joi from "joi";
 import contactsService from "../../models/contacts.js";
-import HttpError from "../../helpers/HttpError.js";
+import HttpErrorCreator from "../../helpers/HttpErrorCreator.js";
 
 const router = express.Router();
+
+const schema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  phone: Joi.string().required(),
+});
 
 router.get("/", async (req, res, next) => {
   try {
@@ -17,7 +24,7 @@ router.get("/:contactId", async (req, res, next) => {
   try {
     const searchContact = await contactsService.getContactById(req.params.contactId);
     if (!searchContact) {
-      throw HttpError(404, `Not Found`);
+      throw HttpErrorCreator(404, "Not Found");
     }
     res.json(searchContact);
   } catch (error) {
@@ -27,7 +34,12 @@ router.get("/:contactId", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    res.status(201).json({ message: "template message" });
+    const { error } = schema.validate(req.body);
+    if (error) {
+      throw HttpErrorCreator(400, error.message);
+    }
+    const newContact = await contactsService.addContact(req.body);
+    res.status(201).json(newContact);
   } catch (error) {
     next(error);
   }
@@ -35,7 +47,11 @@ router.post("/", async (req, res, next) => {
 
 router.delete("/:contactId", async (req, res, next) => {
   try {
-    res.json({ message: "template message" });
+    const deletedContact = await contactsService.removeContact(req.params.contactId);
+    if (!deletedContact) {
+      throw HttpErrorCreator(404, "Not Found");
+    }
+    res.json({ message: "contact deleted" });
   } catch (error) {
     next(error);
   }
@@ -43,7 +59,15 @@ router.delete("/:contactId", async (req, res, next) => {
 
 router.put("/:contactId", async (req, res, next) => {
   try {
-    res.json({ message: "template message" });
+    const { error } = schema.validate(req.body);
+    if (error) {
+      throw HttpErrorCreator(400, error.message);
+    }
+    const updatedContact = await contactsService.updateContact(req.params.contactId, req.body);
+    if (!updatedContact) {
+      throw HttpErrorCreator(404, "Not Found");
+    }
+    res.json(updatedContact);
   } catch (error) {
     next(error);
   }
