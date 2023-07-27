@@ -1,7 +1,7 @@
 import { HttpErrorCreator } from "../helpers/index.js";
 
 const validateRequestBody = (schema) => {
-  return async (req, res, next) => {
+  return (req, res, next) => {
     const { error } = schema.validate(req.body);
     if (error) {
       next(HttpErrorCreator(400, error.message));
