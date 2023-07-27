@@ -5,7 +5,7 @@ export const getContactById = async (req, res) => {
   const { contactId } = req.params;
   const searchContact = await Contact.findById(contactId);
   if (!searchContact) {
-    throw HttpErrorCreator(404, "Not Found");
+    throw HttpErrorCreator(404);
   }
   res.json(searchContact);
 };
