@@ -1,5 +1,5 @@
 export const handleMongooseError = (er, _, next) => {
-  er.status = 400;
+  er.status = er.code === 11000 && er.name === "MongoServerError" ? 409 : 400;
   next();
 };
 
