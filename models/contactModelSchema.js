@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { handleMongooseError, handleRunValidators } from "./hooks.js";
 
 const contactSchema = new Schema(
   {
@@ -20,22 +21,11 @@ const contactSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-contactSchema.pre("findOneAndUpdate", function (next) {
-  console.log("enter pre hook");
-  this.options.runValidators = true;
-  console.log("running validation");
-  next();
-});
+contactSchema.pre("findOneAndUpdate", handleRunValidators);
 
-contactSchema.post("save", (er, _, next) => {
-  er.status = 400;
-  next();
-});
+contactSchema.post("save", handleMongooseError);
 
-contactSchema.post("findOneAndUpdate", (er, _, next) => {
-  er.status = 400;
-  next();
-});
+contactSchema.post("findOneAndUpdate", handleMongooseError);
 
 const Contact = model("contact", contactSchema);
 
