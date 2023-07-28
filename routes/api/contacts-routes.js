@@ -6,22 +6,22 @@ import { autorizationUser } from "../../middlewares/index.js";
 
 const router = express.Router();
 
-router.get("/", autorizationUser, contactControllers.getAllContacts);
+router.use(autorizationUser);
 
-router.get("/:contactId", autorizationUser, validateId, contactControllers.getContactById);
+router.get("/", contactControllers.getAllContacts);
+
+router.get("/:contactId", validateId, contactControllers.getContactById);
 
 router.post(
   "/",
-  autorizationUser,
   validateRequestBody(contactJoiSchemas.contactAddSchema),
   contactControllers.addNewContact
 );
 
-router.delete("/:contactId", autorizationUser, validateId, contactControllers.removeContactById);
+router.delete("/:contactId", validateId, contactControllers.removeContactById);
 
 router.put(
   "/:contactId",
-  autorizationUser,
   validateId,
   validateRequestBody(contactJoiSchemas.contactAddSchema),
   contactControllers.updateContactById
@@ -29,7 +29,6 @@ router.put(
 
 router.patch(
   "/:contactId/favorite",
-  autorizationUser,
   validateId,
   validateRequestBody(contactJoiSchemas.contactsFavoriteSchema),
   contactControllers.updateStatusContactById

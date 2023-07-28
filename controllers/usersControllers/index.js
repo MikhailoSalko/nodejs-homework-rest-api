@@ -1,8 +1,10 @@
-import { contactDecorator } from "../../helpers/index.js";
+import { controllerDecorator } from "../../helpers/index.js";
 import signup from "./singup.js";
 import signin from "./singin.js";
+import getCurrent from "./getCurrent.js";
 
 export default {
-  signup: contactDecorator(signup),
-  signin: contactDecorator(signin),
+  signup: controllerDecorator(signup),
+  signin: controllerDecorator(signin),
+  getCurrent: controllerDecorator(getCurrent),
 };

@@ -1,4 +1,4 @@
-const contactDecorator = (controller) => {
+const controllerDecorator = (controller) => {
   const func = async (req, res, next) => {
     try {
       await controller(req, res, next);
@@ -10,4 +10,4 @@ const contactDecorator = (controller) => {
   return func;
 };
 
-export default contactDecorator;
+export default controllerDecorator;

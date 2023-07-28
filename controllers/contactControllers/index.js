@@ -1,4 +1,4 @@
-import { contactDecorator } from "../../helpers/index.js";
+import { controllerDecorator } from "../../helpers/index.js";
 import getAllContacts from "./getAllContacts.js";
 import getContactById from "./getContactById.js";
 import addNewContact from "./addNewContact.js";
@@ -7,10 +7,10 @@ import updateStatusContactById from "./updateStatusContactById.js";
 import updateContactById from "./updateContactById.js";
 
 export default {
-  getAllContacts: contactDecorator(getAllContacts),
-  getContactById: contactDecorator(getContactById),
-  addNewContact: contactDecorator(addNewContact),
-  removeContactById: contactDecorator(removeContactById),
-  updateContactById: contactDecorator(updateContactById),
-  updateStatusContactById: contactDecorator(updateStatusContactById),
+  getAllContacts: controllerDecorator(getAllContacts),
+  getContactById: controllerDecorator(getContactById),
+  addNewContact: controllerDecorator(addNewContact),
+  removeContactById: controllerDecorator(removeContactById),
+  updateContactById: controllerDecorator(updateContactById),
+  updateStatusContactById: controllerDecorator(updateStatusContactById),
 };
