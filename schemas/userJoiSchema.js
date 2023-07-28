@@ -11,7 +11,12 @@ const userSinginSchema = Joi.object({
   email: Joi.string().required(),
 });
 
+const userUpdateSubscription = Joi.object({
+  subscription: Joi.string().valid("starter", "pro", "business").required(),
+});
+
 export default {
   userSignupSchema,
   userSinginSchema,
+  userUpdateSubscription,
 };

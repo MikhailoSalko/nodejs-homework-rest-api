@@ -17,6 +17,16 @@ router.post(
   validateRequestBody(userJoiSchemas.userSinginSchema),
   usersControllers.signin
 );
+
 router.get("/current", autorizationUser, usersControllers.getCurrent);
+
+router.post("/signout", autorizationUser, usersControllers.signout);
+
+router.patch(
+  "/",
+  autorizationUser,
+  validateRequestBody(userJoiSchemas.userUpdateSubscription),
+  usersControllers.updateUserSubscription
+);
 
 export default router;
