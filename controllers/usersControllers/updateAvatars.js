@@ -12,7 +12,7 @@ export const updateAvatars = async (req, res) => {
   const avatarsPath = path.resolve("public", "avatars", fileName);
   await fs.rename(uploadPath, avatarsPath);
   const avatarURL = path.join("avatars", fileName);
-  console.log(avatarURL);
+  // console.log(avatarURL);
 
   await User.findByIdAndUpdate(_id, { avatarURL });
 
