@@ -9,12 +9,15 @@ export const updateAvatars = async (req, res) => {
   const fileName = `${_id}_${originalname}`;
   const avatarsPath = path.resolve("public", "avatars", fileName);
   const avatarURL = path.join("avatars", fileName);
+  try {
+    const image = await Jimp.read(tempPath);
+    await image.resize(250, 250);
+    await image.writeAsync(tempPath);
 
-  const image = await Jimp.read(tempPath);
-  await image.resize(250, 250);
-  await image.writeAsync(tempPath);
-
-  await fs.rename(tempPath, avatarsPath);
+    await fs.rename(tempPath, avatarsPath);
+  } catch (error) {
+    await fs.unlink(tempPath);
+  }
 
   await User.findByIdAndUpdate(_id, { avatarURL });
 
