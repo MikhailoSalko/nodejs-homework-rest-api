@@ -17,6 +17,7 @@ export const updateAvatars = async (req, res) => {
     await fs.rename(tempPath, avatarsPath);
   } catch (error) {
     await fs.unlink(tempPath);
+    return next(error);
   }
 
   await User.findByIdAndUpdate(_id, { avatarURL });
