@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs/promises";
 import Jimp from "jimp";
 
-export const updateAvatars = async (req, res) => {
+export const updateAvatars = async (req, res, next) => {
   const { _id } = req.user;
   const { path: tempPath, originalname } = req.file;
   const fileName = `${_id}_${originalname}`;
