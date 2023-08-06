@@ -3,6 +3,7 @@ import usersControllers from "../../controllers/usersControllers/index.js";
 import { validateRequestBody } from "../../middlewares/index.js";
 import { userJoiSchemas } from "../../schemas/index.js";
 import { autorizationUser } from "../../middlewares/index.js";
+import { upload } from "../../middlewares/index.js";
 
 const router = express.Router();
 
@@ -28,5 +29,7 @@ router.patch(
   validateRequestBody(userJoiSchemas.userUpdateSubscription),
   usersControllers.updateUserSubscription
 );
+
+router.patch("/avatars", autorizationUser, upload.single("avatar"), usersControllers.updateAvatars);
 
 export default router;
