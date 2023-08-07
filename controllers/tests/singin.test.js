@@ -16,8 +16,15 @@ const user = {
 };
 
 describe("test signin function", () => {
-  beforeAll(async () => await mongoose.connect(DB_HOST));
-  afterAll(async () => await mongoose.connection.close());
+  let server = null;
+  beforeAll(async () => {
+    await mongoose.connect(DB_HOST);
+    server = app.listen();
+  });
+  afterAll(async () => {
+    await mongoose.connection.close();
+    server.close();
+  });
 
   test("test response status", async () => {
     const res = await request(app).post("/api/users/signin").send(user);
