@@ -12,6 +12,9 @@ export const signin = async (req, res) => {
   if (!user) {
     throw HttpErrorCreator(401, "Email or password is wrong");
   }
+  if (!user.verify) {
+    throw HttpErrorCreator(401, "Email or password is wrong");
+  }
   const userPassword = await bcryptjs.compare(password, user.password);
   if (!userPassword) {
     throw HttpErrorCreator(401, "Email or password is wrong");
