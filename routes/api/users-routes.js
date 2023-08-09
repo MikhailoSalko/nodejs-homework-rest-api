@@ -13,6 +13,14 @@ router.post(
   usersControllers.signup
 );
 
+router.get("/verify/:verificationToken", usersControllers.verifyEmail);
+
+router.post(
+  "/verify",
+  validateRequestBody(userJoiSchemas.userEmailSchema),
+  usersControllers.resendVerificationEmail
+);
+
 router.post(
   "/signin",
   validateRequestBody(userJoiSchemas.userSinginSchema),
@@ -24,7 +32,7 @@ router.get("/current", autorizationUser, usersControllers.getCurrent);
 router.post("/signout", autorizationUser, usersControllers.signout);
 
 router.patch(
-  "/",
+  "/subscription",
   autorizationUser,
   validateRequestBody(userJoiSchemas.userUpdateSubscription),
   usersControllers.updateUserSubscription
